@@ -1,16 +1,17 @@
 #include <iostream>
 #include <string>
+using namespace std; 
 
 class Invoice {
 private:
-    std::string partNumber;
-    std::string partDescription;
+    string partNumber;
+    string partDescription;
     int quantity;
     double pricePerItem;
 
 public:
     //constructor
-    Invoice(const std::string& number, const std::string& description, int qty, double price)
+    Invoice(const string& number, const string& description, int qty, double price)
         : partNumber(number), partDescription(description), quantity(qty > 0 ? qty : 0), pricePerItem(price > 0 ? price : 0.0) {}
     //copy constructor
     Invoice(const Invoice& other)
@@ -28,15 +29,15 @@ public:
 
     //move constructor
     Invoice(Invoice&& other) noexcept
-        : partNumber(std::move(other.partNumber)), partDescription(std::move(other.partDescription)), quantity(other.quantity), pricePerItem(other.pricePerItem) {
+        : partNumber(move(other.partNumber)), partDescription(move(other.partDescription)), quantity(other.quantity), pricePerItem(other.pricePerItem) {
         other.quantity = 0;
         other.pricePerItem = 0.0;
     }
     //move assignment operator
     Invoice& operator=(Invoice&& other) noexcept {
         if (this != &other) {
-            partNumber = std::move(other.partNumber);
-            partDescription = std::move(other.partDescription);
+            partNumber = move(other.partNumber);
+            partDescription = move(other.partDescription);
             quantity = other.quantity;
             pricePerItem = other.pricePerItem;
             other.quantity = 0;
@@ -52,26 +53,26 @@ public:
 
      //destructor
     ~Invoice() {
-        std::cout << "Invoice object destroyed." << std::endl;
+        cout << "Invoice object destroyed." << endl;
     }
 
     //ggetters
-    std::string getPartNumber() const {return partNumber; }
-    std::string getPartDescription() const { return partDescription;}
+    string getPartNumber() const {return partNumber; }
+    string getPartDescription() const { return partDescription;}
     int getQuantity() const { return quantity; }
     double getPricePerItem() const {return pricePerItem; }
 };
 
 int main() {
     Invoice inv1("1234", "funny hammer", 2, 14.95);
-    std::cout << "Invoice Amount: " << inv1.getInvoiceAmount() << std::endl;
+    cout << "Invoice Amount: " << inv1.getInvoiceAmount() << endl;
 
     Invoice inv2 = inv1; //copy constructor
-    std::cout << "Copied Invoice Amount: " << inv2.getInvoiceAmount() << std::endl;
+    cout << "Copied Invoice Amount: " << inv2.getInvoiceAmount() << endl;
 
     Invoice inv3("5678", "nmails polish", 5, 0.99);
     inv3 = inv1; // Copy assignment
-    std::cout << "Assigned Invoice Amount: " << inv3.getInvoiceAmount() << std::endl;
+    cout << "Assigned Invoice Amount: " << inv3.getInvoiceAmount() << endl;
 
     return 0;
 }
